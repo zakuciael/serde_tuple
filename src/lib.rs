@@ -5,20 +5,38 @@
 //! ```
 //! use serde_tuple::*;
 //!
-//! #[derive(Serialize_tuple, Deserialize_tuple)]
+//! #[derive(SerializeTuple, DeserializeTuple)]
 //! pub struct Foo<'a> {
 //!     bar: &'a str,
 //!     baz: i32
 //! }
 
 //! let foo = Foo { bar: "Yes", baz: 22 };
-//! let json = serde_json::to_string(&foo).unwrap();
+//! let json = {
+//!   let mut buf = vec![];
+//!   let mut serializer = serde_json::Serializer::pretty(&mut buf);
+//!   foo.serialize_tuple(&mut serializer).unwrap();
+//!
+//!   unsafe { String::from_utf8_unchecked(buf) }
+//! };
 //! println!("{}", &json);
 //! // # => ["Yes",22]
 //! ```
 #![no_std]
 
 pub use serde_tuple_macros::*;
+
+pub trait SerializeTuple {
+    fn serialize_tuple<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+      S: serde::Serializer;
+}
+
+pub trait DeserializeTuple<'de>: Sized {
+    fn deserialize_tuple<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+      D: serde::Deserializer<'de>;
+}
 
 #[doc(hidden)]
 pub struct Serializer<S>(pub S);

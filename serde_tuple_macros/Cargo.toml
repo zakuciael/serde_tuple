@@ -1,6 +1,6 @@
 [package]
-authors = ["Jacob Brown <kardeiz@gmail.com>"]
-edition = "2018"
+authors = ["Jacob Brown <kardeiz@gmail.com>", "Krzysztof Saczuk <me@krzysztofsaczuk.pl>"]
+edition = "2021"
 name = "serde_tuple_macros"
 version = "1.0.1"
 description = "Internal proc-macro crate for serde_tuple"

@@ -1,7 +1,5 @@
 #![recursion_limit = "4096"]
 
-extern crate proc_macro;
-
 use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::quote;
@@ -24,7 +22,7 @@ impl parse::Parse for WrappedItemStruct {
     }
 }
 
-#[proc_macro_derive(Serialize_tuple, attributes(serde))]
+#[proc_macro_derive(SerializeTuple, attributes(serde))]
 pub fn derive_serialize_tuple(input: TokenStream) -> TokenStream {
     let WrappedItemStruct(item) = parse_macro_input!(input as WrappedItemStruct);
 
@@ -82,8 +80,8 @@ pub fn derive_serialize_tuple(input: TokenStream) -> TokenStream {
     let (_, inner_ty_generics, _) = inner_generics.split_for_impl();
 
     let out = quote! {
-        impl #impl_generics serde::Serialize for #ident #ty_generics #where_clause {
-            fn serialize<S>(&self, serializer: S) -> core::result::Result<S::Ok, S::Error>
+        impl #impl_generics serde_tuple::SerializeTuple for #ident #ty_generics #where_clause {
+            fn serialize_tuple<S>(&self, serializer: S) -> core::result::Result<S::Ok, S::Error>
             where
                 S: serde::Serializer
             {
@@ -101,7 +99,7 @@ pub fn derive_serialize_tuple(input: TokenStream) -> TokenStream {
     out.into()
 }
 
-#[proc_macro_derive(Deserialize_tuple, attributes(serde))]
+#[proc_macro_derive(DeserializeTuple, attributes(serde))]
 pub fn derive_deserialize_tuple(input: TokenStream) -> TokenStream {
     let WrappedItemStruct(item) = parse_macro_input!(input as WrappedItemStruct);
 
@@ -167,8 +165,8 @@ pub fn derive_deserialize_tuple(input: TokenStream) -> TokenStream {
     let (de_impl_generics, ..) = de_generics.split_for_impl();
 
     let out = quote! {
-        impl #de_impl_generics serde::Deserialize<'de> for #ident #ty_generics #where_clause {
-            fn deserialize<D>(deserializer: D) -> core::result::Result<Self, D::Error>
+        impl #de_impl_generics serde_tuple::DeserializeTuple<'de> for #ident #ty_generics #where_clause {
+            fn deserialize_tuple<D>(deserializer: D) -> core::result::Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
             {
