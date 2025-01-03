@@ -1,9 +1,9 @@
-//! Derive macros to serialize and deserialize struct with named fields as an array of values
+//! Derive macros to serialize and deserialize a struct with named fields as an array of values
 //!
 //! # Examples
 //!
 //! ```
-//! use serde_tuple::*;
+//! use serde_tuple_explicit::*;
 //!
 //! #[derive(SerializeTuple, DeserializeTuple)]
 //! pub struct Foo<'a> {
@@ -24,7 +24,7 @@
 //! ```
 #![no_std]
 
-pub use serde_tuple_macros::*;
+pub use serde_tuple_explicit_macros::*;
 
 pub trait SerializeTuple {
     fn serialize_tuple<S>(&self, serializer: S) -> Result<S::Ok, S::Error>

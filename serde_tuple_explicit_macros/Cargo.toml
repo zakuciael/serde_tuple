@@ -1,11 +1,11 @@
 [package]
 authors = ["Jacob Brown <kardeiz@gmail.com>", "Krzysztof Saczuk <me@krzysztofsaczuk.pl>"]
 edition = "2021"
-name = "serde_tuple_macros"
+name = "serde_tuple_explicit_macros"
 version = "1.0.1"
-description = "Internal proc-macro crate for serde_tuple"
+description = "Internal proc-macro crate for serde_tuple_explicit"
 license = "MIT"
-repository = "https://github.com/kardeiz/serde_tuple"
+repository = "https://github.com/zakuciael/serde_tuple_explicit"
 readme = "../README.md"
 
 [dependencies]

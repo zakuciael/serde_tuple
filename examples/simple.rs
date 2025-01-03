@@ -1,4 +1,4 @@
-use serde_tuple::*;
+use serde_tuple_explicit::*;
 
 #[derive(Debug, SerializeTuple, DeserializeTuple)]
 pub struct Foo {

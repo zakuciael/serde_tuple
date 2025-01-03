@@ -67,20 +67,20 @@ pub fn derive_serialize_tuple(input: TokenStream) -> TokenStream {
             let ident = field.ident.as_ref().unwrap();
             let ty = &field.ty;
             let attrs = &field.attrs;
-            (quote!(#(#attrs)* &'serde_tuple_inner #ty), quote!(&self.#ident))
+            (quote!(#(#attrs)* &'serde_tuple_explicit_inner #ty), quote!(&self.#ident))
         })
         .unzip();
 
     let mut inner_generics = item.generics.clone();
 
-    let inner_lifetime_def: LifetimeDef = parse_quote!('serde_tuple_inner);
+    let inner_lifetime_def: LifetimeDef = parse_quote!('serde_tuple_explicit_inner);
 
     inner_generics.params.push(inner_lifetime_def.into());
 
     let (_, inner_ty_generics, _) = inner_generics.split_for_impl();
 
     let out = quote! {
-        impl #impl_generics serde_tuple::SerializeTuple for #ident #ty_generics #where_clause {
+        impl #impl_generics serde_tuple_explicit::SerializeTuple for #ident #ty_generics #where_clause {
             fn serialize_tuple<S>(&self, serializer: S) -> core::result::Result<S::Ok, S::Error>
             where
                 S: serde::Serializer
@@ -91,7 +91,7 @@ pub fn derive_serialize_tuple(input: TokenStream) -> TokenStream {
                 struct Inner #inner_ty_generics (#(#field_tys,)*);
 
                 let inner = Inner(#(#field_calls,)*);
-                serde::Serialize::serialize(&inner, serde_tuple::Serializer(serializer))
+                serde::Serialize::serialize(&inner, serde_tuple_explicit::Serializer(serializer))
             }
         }
     };
@@ -165,7 +165,7 @@ pub fn derive_deserialize_tuple(input: TokenStream) -> TokenStream {
     let (de_impl_generics, ..) = de_generics.split_for_impl();
 
     let out = quote! {
-        impl #de_impl_generics serde_tuple::DeserializeTuple<'de> for #ident #ty_generics #where_clause {
+        impl #de_impl_generics serde_tuple_explicit::DeserializeTuple<'de> for #ident #ty_generics #where_clause {
             fn deserialize_tuple<D>(deserializer: D) -> core::result::Result<Self, D::Error>
             where
                 D: serde::Deserializer<'de>,
@@ -175,7 +175,7 @@ pub fn derive_deserialize_tuple(input: TokenStream) -> TokenStream {
                 #(#attrs)*
                 struct Inner #ty_generics (#(#field_tys,)*);
                 let inner: Inner #ty_generics =
-                    serde::Deserialize::deserialize(serde_tuple::Deserializer(deserializer))?;
+                    serde::Deserialize::deserialize(serde_tuple_explicit::Deserializer(deserializer))?;
                 core::result::Result::Ok(#ident {
                     #(#field_calls,)*
                 })

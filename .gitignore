@@ -1,4 +1,8 @@
+.idea/*
+.direnv/
+.envrc
+
 /target
-/serde_tuple_macros/target
+serde_tuple_explicit_macros/target
 **/*.rs.bk
 Cargo.lock

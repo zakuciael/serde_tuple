@@ -1,15 +1,15 @@
 [package]
 authors = ["Jacob Brown <kardeiz@gmail.com>", "Krzysztof Saczuk <me@krzysztofsaczuk.pl>"]
 edition = "2021"
-name = "serde_tuple"
+name = "serde_tuple_explicit"
 version = "1.1.0"
-description = "De/serialize structs with named fields as array of values"
+description = "A fork of the serde_tuple crate using explicit traits to de/serialize structs."
 license = "MIT"
-repository = "https://github.com/kardeiz/serde_tuple"
+repository = "https://github.com/zakuciael/serde_tuple_explicit"
 readme = "README.md"
 
 [dependencies]
-serde_tuple_macros = { version = "1.0.1", path = "./serde_tuple_macros" }
+serde_tuple_explicit_macros = { version = "1.0.1", path = "./serde_tuple_explicit_macros" }
 serde = { version = "1", features = ["derive"], default-features = false}
 
 [dev-dependencies]

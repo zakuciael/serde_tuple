@@ -1,16 +1,11 @@
-# serde_tuple
+# serde_tuple_explicit
 
-> [!Warning]
-> This is a modified version of `serde_tuple` crate,
-> which instead of using `serde::Serialize` and `serde::Deserialize` traits provides its own `serde_tuple::SerializeTuple` and `serde_tuple::DeserializeTuple` traits.
-> Allowing usage of normal and tuple serialization/deserialization at the same time. 
-> 
-> For the original `serde_tuple` crate go [here](https://github.com/kardeiz/serde_tuple)
+A fork of the [`serde_tuple`](https://github.com/kardeiz/serde_tuple) crate using explicit traits to de/serialize structs.
 
 # Usage
 
 ```rust
-use serde_tuple::*;
+use serde_tuple_explicit::*;
 
 #[derive(SerializeTuple, DeserializeTuple)]
 pub struct Foo<'a> {
